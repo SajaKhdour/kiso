@@ -59,8 +59,10 @@ pipeline
                             echo "run static analysis"
                             sh 'cmake . -Bbuilddir-static -G"Unix Makefiles" -DPROJECT_CONFIG_PATH=ci/testing_config -DENABLE_STATIC_CHECKS=1 -DCMAKE_VERBOSE_MAKEFILE:BOOL=ON'
                             sh 'cmake --build builddir-static 2> builddir-static/clang-report.txt'
-                            sh 'if [ ! -s builddir-static/clang-report.txt ]; then echo "Good, all tests have been passed w/o findings" > builddir-static/clang-report.txt; fi;'
+                            sh 'if [ ! -s builddir-static/clang-report.txt ]; then echo "Good, all tests have been passed w/o findings" > builddir-static/clang-final-report.txt; fi;'
                             sh 'cat builddir-static/clang-report.txt | python ci/thirdparty/clangTidyToJunit/clang-tidy-to-junit.py `pwd` > builddir-static/clang-report.xml'
+                            sh 'cat ./core/.clang-tidy >> builddir-static/clang-final-report.txt'
+                            sh 'python ./ci/clang-tidy-report-script.py ./builddir-static/clang-report.txt ./core/.clang-tidy >> ./builddir-static/clang-final-report.txt'
                         }
                     }
                 }
