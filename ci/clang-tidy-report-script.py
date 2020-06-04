@@ -3,13 +3,6 @@ from io import StringIO
 import sys
 
 
-   
-################# write the result in the final file for the final report                
-def writeText(function):
-    textfile = open("Final-Clang-Tidy-Report.txt","w")
-    textfile.write(function)
-    textfile.write('\n')
-    textfile.close()
 
 ############### read specific string from file
 def readClangConfig():
@@ -139,7 +132,6 @@ def readFileAndFindWarningFunctions():
                     
                     
             ffinal = '\n'.join(listResult)    
-        writeText(ffinal)
         print(ffinal+'\n')
 
 
